@@ -19,15 +19,15 @@ do{
                 "[Default] Install all`n"
                 switch($opcionInstall){
                     1{
-                        Import-Module -Name IPInfo
+                        Import-Module -Name IPInfo -ErrorAction SilentlyContinue
                     } 2{
-                        Import-Module -Name HiddenItems
+                        Import-Module -Name HiddenItems -ErrorAction SilentlyContinue
                     } 3{
-                        Import-Module -Name Resources
+                        Import-Module -Name Resources -ErrorAction SilentlyContinue
                     } 4{
-                        Import-Module -Name APIRequest
+                        Import-Module -Name APIRequest -ErrorAction SilentlyContinue
                     } defautl{
-                        Import-Module -Name IPInfo,HiddenItems,Resources,APIRequest
+                        Import-Module -Name IPInfo,HiddenItems,Resources,APIRequest -ErrorAction SilentlyContinue
                     }
                 }
                 } until ($opcionInstall -eq 0)
@@ -43,19 +43,19 @@ do{
                 "[Default] Review all comands`n"
                 switch($opcionReview){
                     1{
-                        Get-Command -Module IPInfo
+                        Get-Command -Module IPInfo -ErrorAction SilentlyContinue
                         
                     } 2{
-                        Get-Command -Module HiddenItems
+                        Get-Command -Module HiddenItems -ErrorAction SilentlyContinue
                         
                     } 3{
-                        Get-Command -Module Resources
+                        Get-Command -Module Resources -ErrorAction SilentlyContinue
                         
                     } 4{
-                        Get-Command -Module APIRequest
+                        Get-Command -Module APIRequest -ErrorAction SilentlyContinue
                         
                     } defautl{
-                        Get-Command -Module IPInfo,HiddenItems,Resources,APIRequest
+                        Get-Command -Module IPInfo,HiddenItems,Resources,APIRequest -ErrorAction SilentlyContinue
                         
                     }
                 }
@@ -72,19 +72,19 @@ do{
                 "[Default] Uninstall all`n"
                 switch($opcionUninstall){
                     1{
-                        Remove-Module -Name IPInfo
+                        Remove-Module -Name IPInfo -ErrorAction SilentlyContinue
                         
                     } 2{
-                        Remove-Module -Name HiddenItems
+                        Remove-Module -Name HiddenItems -ErrorAction SilentlyContinue
                         
                     } 3{
-                        Remove-Module -Name Resources
+                        Remove-Module -Name Resources -ErrorAction SilentlyContinue
                         
                     } 4{
-                        Remove-Module -Name APIRequest
+                        Remove-Module -Name APIRequest -ErrorAction SilentlyContinue
                         
                     } defautl{
-                        Remove-Module -Name IPInfo,HiddenItems,Resources,APIRequest
+                        Remove-Module -Name IPInfo,HiddenItems,Resources,APIRequest -ErrorAction SilentlyContinue
                         
                     }
                 }
