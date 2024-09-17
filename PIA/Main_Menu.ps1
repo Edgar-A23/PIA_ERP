@@ -41,7 +41,7 @@ switch($opcion){
         } until ($opcionInstall -eq 0)
     } 2{
         do{
-            $opcionInstall = Read-Host "-- Bienvenido al menu de consulta --`n",`
+            $opcionReview = Read-Host "-- Bienvenido al menu de consulta --`n",`
             "Escoga la opción que desea realizar`n",
             "[1]Consultar comandos del modulo IPInfo`n",
             "[2]Consultar comandos del modulo HiddenItems`n",
@@ -49,7 +49,7 @@ switch($opcion){
             "[4]Consultar comandos del modulo ApiRequest`n",
             "[0]Salir del menú`n",
             "[Default] Review all comands`n"
-            switch($opcionInstall){
+            switch($opcionReview){
                 1{
                     Get-Command -Module IPInfo
                     return
@@ -67,10 +67,10 @@ switch($opcion){
                     return
                 }
             }
-        } until ($opcionInstall -eq 0)
+        } until ($opcionReview -eq 0)
     } 3{
         do{
-            $opcionUnnstall = Read-Host "-- Bienvenido al menu de desintalación --`n",`
+            $opcionUninstall = Read-Host "-- Bienvenido al menu de desintalación --`n",`
             "Escoga la opción que desea realizar`n",
             "[1]Desinstalar modulo IPInfo`n",
             "[2]Desinstalar modulo HiddenItems`n",
@@ -78,7 +78,7 @@ switch($opcion){
             "[4]Desinstalar modulo ApiRequest`n",
             "[0]Salir del menú`n",
             "[Default] Uninstall all`n"
-            switch($opcionInstall){
+            switch($opcionUninstall){
                 1{
                     Remove-Module -Name IPInfo
                     return
@@ -99,7 +99,10 @@ switch($opcion){
                     return
                 }
             }
-        } until ($opcionInstall -eq 0)
+        } until ($opcionUninstall -eq 0)
+    } 4{
+        Get-Module
+        return
     } default{
         $opcion = 0
     }
