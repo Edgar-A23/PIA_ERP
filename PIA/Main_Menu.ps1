@@ -20,22 +20,14 @@ do{
                 switch($opcionInstall){
                     1{
                         Import-Module -Name IPInfo
-                        return
                     } 2{
                         Import-Module -Name HiddenItems
-                        return
                     } 3{
                         Import-Module -Name Resources
-                        return
                     } 4{
                         Import-Module -Name APIRequest
-                        return
                     } defautl{
-                        Import-Module -Name IPInfo
-                        Import-Module -Name HiddenItems
-                        Import-Module -Name Resources
-                        Import-Module -Name APIRequest
-                        return
+                        Import-Module -Name IPInfo,HiddenItems,Resources,APIRequest
                     }
                 }
                 } until ($opcionInstall -eq 0)
@@ -52,19 +44,19 @@ do{
                 switch($opcionReview){
                     1{
                         Get-Command -Module IPInfo
-                        return
+                        
                     } 2{
                         Get-Command -Module HiddenItems
-                        return
+                        
                     } 3{
                         Get-Command -Module Resources
-                        return
+                        
                     } 4{
                         Get-Command -Module APIRequest
-                        return
+                        
                     } defautl{
                         Get-Command -Module IPInfo,HiddenItems,Resources,APIRequest
-                        return
+                        
                     }
                 }
                 } until ($opcionReview -eq 0)
@@ -81,28 +73,25 @@ do{
                 switch($opcionUninstall){
                     1{
                         Remove-Module -Name IPInfo
-                        return
+                        
                     } 2{
                         Remove-Module -Name HiddenItems
-                        return
+                        
                     } 3{
                         Remove-Module -Name Resources
-                        return
+                        
                     } 4{
                         Remove-Module -Name APIRequest
-                        return
+                        
                     } defautl{
-                        Remove-Module -Name IPInfo
-                        Remove-Module -Name HiddenItems
-                        Remove-Module -Name Resources
-                        Remove-Module -Name APIRequest
-                        return
+                        Remove-Module -Name IPInfo,HiddenItems,Resources,APIRequest
+                        
                     }
                 }
                 } until ($opcionUninstall -eq 0)
         } 4{
             Get-Module
-            return
+            
         } default{
             $opcion = 0
         }
