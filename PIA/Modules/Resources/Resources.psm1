@@ -1,4 +1,4 @@
-#Definimos la función para la obtención de información acerca del uso de la memoria RAM
+#Definimos la funciÃ³n para la obtenciÃ³n de informaciÃ³n acerca del uso de la memoria RAM
 function Get-ResourcesSystemMemInfo {
 <#
 .SYNOPSIS
@@ -29,20 +29,20 @@ function Get-ResourcesSystemMemInfo {
         [Parameter()][Validateset("Total","Free","Used","All")][string]$Option = "All"
     )
     process {
-        #Almacenamos la información de la capacidad total de la memoria RAM
+        #Almacenamos la informaciÃ³n de la capacidad total de la memoria RAM
         $TotalRAM = Get-CimInstance -ClassName Win32_PhysicalMemory | 
         Select-Object @{n="Total Memory";e={$_.Capacity/1GB}}
-        #Obtenemos la información de la memoria disponible de la RAM
+        #Obtenemos la informaciÃ³n de la memoria disponible de la RAM
         $FreeRAM = Get-CimInstance -ClassName Win32_OperatingSystem |
         Select-Object @{n="Free RAM";e={$_.FreePhysicalMemory/1GB}}
         #Caculamos la memoria RAM usada por los procesos en funcionamiento de la computadora
         $UsedRAM = Get-Process | Measure-Object -Property Workingset -Sum |
         Select-Object -Property @{n="Used RAM";e={$_.Sum/1GB}}
-        #Mencionar que a todos se les dió formato en GB
+        #Mencionar que a todos se les diÃ³ formato en GB
 
-        #Filtramos la información para la presentación de la información
+        #Filtramos la informaciÃ³n para la presentaciÃ³n de la informaciÃ³n
         switch($Option){
-            #Mostramos la información de la memoria RAM total
+            #Mostramos la informaciÃ³n de la memoria RAM total
             "Total"{
                 Write-Host "La memoria RAM total instalada es de: $TotalRAM GB"
             #Mostramos la memoria disponible en la RAM
@@ -51,8 +51,8 @@ function Get-ResourcesSystemMemInfo {
             #Mostramos la memoria RAM que se esta usando
             } "Used" {
                 Write-Host "La memoria RAM en uso es de: $UsedRAM GB"
-            #En caso de no especificar alguna opcion o usar la opción all muestra toda la info de la RAM
-            #en formato de lista para una mejor visualización
+            #En caso de no especificar alguna opcion o usar la opciÃ³n all muestra toda la info de la RAM
+            #en formato de lista para una mejor visualizaciÃ³n
             }default{
                 $TotalRAM,$FreeRAM,$UsedRAM | Format-List *
             }
@@ -60,7 +60,7 @@ function Get-ResourcesSystemMemInfo {
     }
 }
 
-#Definimos la función para la obtención de información acerca del uso del disco
+#Definimos la funciÃ³n para la obtenciÃ³n de informaciÃ³n acerca del uso del disco
 function Get-ResourcesSystemDiskInfo{
 <#
 .SYNOPSIS
@@ -91,31 +91,34 @@ function Get-ResourcesSystemDiskInfo{
         [Parameter()][Validateset("Total","Free","Used","All")][string]$Option = "All"
     )
     process{
-        #Se obtiene la información del disco
+        #Se obtiene la informaciÃ³n del disco
         $DISK = Get-CimInstance -ClassName Win32_LogicalDisk
         #Se filtra el espacio total del disco
-        $DISK_Total = $DISK | Select-Object -Property @{n="Disk Space";e={$_.Size/1GB}}
+        $DISK_Total = $DISK| 
+        Select-Object -Property @{n="Disk Space";e={$_.Size/1GB}}
         #Se obtiene el espacio disponible del disco
-        $DISK_Free = $DISK | Select-Object -Property @{n="Disk aviable";e={$_.FreeSpace/1GB}}
+        $DISK_Free = $DISK | 
+        Select-Object -Property @{n="Disk aviable";e={$_.FreeSpace/1GB}}
         #Se calcula es espacio usado
-        $DISK_Used = $DISK | Select-Object -Property @{n="Disk used";e={($_.Size/1GB)-($_.FreeSpace/1GB)}}
+        $DISK_Used = $DISK | 
+        Select-Object -Property @{n="Disk used";e={($_.Size/1GB)-($_.FreeSpace/1GB)}}
         #Se mide el porcentaje de uso del disco
         $DISK_UsedPercent = $DISK | 
         Select-Object -Property @{n="Percentage of use";e={(($_.Size-$_.FreeSpace)*(100)/1GB)/($_.Size/1GB)}} 
-        #Se filtra la información que se mostrara de acuerdo a la variable Option
+        #Se filtra la informaciÃ³n que se mostrara de acuerdo a la variable Option
         switch($Option){
             "Total"{
                 #Se muestra todo el espacio que tiene el disco 
                 Write-Host "El espacio total del disco es de: $DISK_Total GB"
             } "Free"{
-                #Se muestra el espacio que dispone aún el disco par usar
+                #Se muestra el espacio que dispone aÃºn el disco par usar
                 Write-Host "Espacio disponible del disco: $DISK_Free GB"
             } "Used" {
                 #Se muestra el espacio de disco usado y su porcentaje
                 Write-Host "Espacio del disco usado: $DISK_Used GB`n",`
                 "Porcentaje del uso del disco: $DISK_UsedPercent%"
             }default{
-                #Se muestra toda la información obtenida del disco en formato de lista para mejor visualización
+                #Se muestra toda la informaciÃ³n obtenida del disco en formato de lista para mejor visualizaciÃ³n
                 $DISK_Total,$DISK_Free,$DISK_Used,$DISK_UsedPercent |
                 Format-List
             }
@@ -123,7 +126,7 @@ function Get-ResourcesSystemDiskInfo{
     }
 }
 
-#Definimos la función para la obtención de información acerca del uso del CPU
+#Definimos la funciÃ³n para la obtenciÃ³n de informaciÃ³n acerca del uso del CPU
 function Get-ResourcesSystemCPUInfo{
 <#
 .SYNOPSIS
@@ -154,19 +157,19 @@ function Get-ResourcesSystemCPUInfo{
         [Parameter()][ValidateSet("Name","NumCores","CoresEnabled","ID","Thread","Architecture","ALL")][string]$Option = "All"
     )
     process{
-        #Se obtiene toda la información del procesador para posteriormente filtrar
-        $CPUInfo = Get-CimInstance -ClassName Win32_Process
+        #Se obtiene toda la informaciÃ³n del procesador para posteriormente filtrar
+        $CPUInfo = Get-WmiObject -ClassName Win32_Processor
         #Se filtra en nombre del procesador
         $PName = $CPUInfo | Select-Object -Property @{n="Processor Name";e={$_.Name}}
-        #Se filtra el número de nucleos del procesador
+        #Se filtra el nÃºmero de nucleos del procesador
         $PCore = $CPUInfo | Select-Object -Property @{n="Cores";e={$_.NumberOfCores}}
-        #Se filtra el número de nucleos activos
+        #Se filtra el nÃºmero de nucleos activos
         $PCoreEnabled = $CPUInfo | Select-Object -Property @{n="Enabled Cores";e={$_.NumberOfEnabledCore}}
         #Se filtra el Id del procesador instalado
         $PId = $CPUInfo | Select-Object -Property @{n="Processor ID";e={$_.ProcessorId}}
         #Se filtran los hilos con los que trabaja el procesador
         $PTrheads = $CPUInfo | Select-Object -Property @{n="Threads";e={$_.ThreadCount}}
-        #Se filtra la arquitectura del procesador a partir de la información de la computadora
+        #Se filtra la arquitectura del procesador a partir de la informaciÃ³n de la computadora
         $PArchitecture = Get-ComputerInfo | Select-Object -Property @{n="Architecture";e={$_.OsArchitecture}}
         switch($Option){
             "Name"{
@@ -182,13 +185,13 @@ function Get-ResourcesSystemCPUInfo{
                 #Mosramos el ID del procesador instalado
                 Write-Host "El id del procesador es $PId"
             } "Thread" {
-                #Señalamos la cantidad de hilos con los que trabaja el procesador
-                Write-Host "El número de hilos del procesador es de $PTrheads"
+                #SeÃ±alamos la cantidad de hilos con los que trabaja el procesador
+                Write-Host "El nÃºmero de hilos del procesador es de $PTrheads"
             } "Architecture" {
                 #Presentamos la arquitectura con la que trabaja la CPU
                 Write-Host "La arquitectura de la CPU es de $PArchitecture"
             }default{
-                #Se muestra toda la información del procesador en formato de list para una mejor visualización
+                #Se muestra toda la informaciÃ³n del procesador en formato de list para una mejor visualizaciÃ³n
                 $PName,$PName,$PCore,$PCoreEnabled,$PId,$PTrheads,$PArchitecture | 
                 Format-List
             }
@@ -196,7 +199,7 @@ function Get-ResourcesSystemCPUInfo{
     }
 }
 
-#Definimos la función para la obtención de información acerca de la red
+#Definimos la funciÃ³n para la obtenciÃ³n de informaciÃ³n acerca de la red
 function Get-ResourcesSystemNetInfo {
 <#
 .SYNOPSIS
@@ -227,12 +230,12 @@ function Get-ResourcesSystemNetInfo {
         [Parameter()][ValidateSet("NetSpeed","AdapterStatus","NetStats","Full")][String]$Option = "Full"
     )
     process{
-        #Se obtiene la información acerca de la velocidad de transferencia de datos por segundo de la red
+        #Se obtiene la informaciÃ³n acerca de la velocidad de transferencia de datos por segundo de la red
         #actual a la que esta conectada el equipo
         $NetSpeed = Get-NetAdapter -Name Wi-fi | Select-Object -Property @{n="Net Speed";e={$_.LinkSpeed}}
-        #Registramos información acerca de los adaptadores de red tal como el nombre, estatus y dirección mac
+        #Registramos informaciÃ³n acerca de los adaptadores de red tal como el nombre, estatus y direcciÃ³n mac
         $AdaptersInfo = Get-NetAdapter | Select-Object -Property Name,Status,MacAddress
-        #Almacenamos toda la info sobre la trasnferencia de datos de la red de conexión actual
+        #Almacenamos toda la info sobre la trasnferencia de datos de la red de conexiÃ³n actual
         $NetStat = Get-NetAdapterStatistics | Format-Table -AutoSize
 
         switch($Option){
@@ -240,16 +243,16 @@ function Get-ResourcesSystemNetInfo {
                 #Mostramos la velocidad de transferencia de la red que estamos conectados
                 Write-Host "La velocidad de la red actual es de $NetSpeed"
             } "AdapterStatus" {
-                #Presentamos la imformación de los adaptadores de conexión que tiene nuestro equipo
-                Write-Host "La información de los adaptadores de red es la siguiente: `n"
+                #Presentamos la imformaciÃ³n de los adaptadores de conexiÃ³n que tiene nuestro equipo
+                Write-Host "La informaciÃ³n de los adaptadores de red es la siguiente: `n"
                 $AdaptersInfo | Format-Table -AutoSize
             } "NetStats" {
-                #Señalamos la información de la red acutal relacionada con el envió o recibo de paquetes
-                Write-Host "Información de la red actual`n"
+                #SeÃ±alamos la informaciÃ³n de la red acutal relacionada con el enviÃ³ o recibo de paquetes
+                Write-Host "InformaciÃ³n de la red actual`n"
                 $NetStat | Format-Table -AutoSize
             } Default {
                 #Se muestra toda la info que se tiene de las redes del equipo
-                Write-Host "La información de la red es la siguiente:`n"
+                Write-Host "La informaciÃ³n de la red es la siguiente:`n"
                 $NetStat, $NetSpeed | Format-List *
                 $AdaptersInfo | Format-Table -AutoSize
             }
